@@ -1,40 +1,32 @@
-"use client";
-import { useRef, useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import {
-  motion,
-  useInView,
-  AnimatePresence,
-  easeOut,
-  easeIn,
-} from "framer-motion";
-import { Navigation, Autoplay } from "swiper/modules";
-import type { Swiper as SwiperType } from "swiper";
-import "swiper/css";
-import "swiper/css/navigation";
-import { features } from "@/constants/data/features";
-import { Swiper, SwiperSlide } from "swiper/react";
-import FeatureCard from "./FeatureCard";
+"use client"
+import { useRef, useState, useEffect } from "react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import { motion, useInView, AnimatePresence, easeOut, easeIn } from "framer-motion"
+import { Navigation, Autoplay } from "swiper/modules"
+import type { Swiper as SwiperType } from "swiper"
+import "swiper/css"
+import "swiper/css/navigation"
+import { features } from "@/constants/data/features"
+import { Swiper, SwiperSlide } from "swiper/react"
+import FeatureCard from "./FeatureCard"
 
 export default function FeatureSlider() {
-  const swiperRef = useRef<SwiperType>(null);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-150px" });
-  const [selectedFeature, setSelectedFeature] = useState<
-    (typeof features)[0] | null
-  >(null);
+  const swiperRef = useRef<SwiperType>(null)
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-150px" })
+  const [selectedFeature, setSelectedFeature] = useState<typeof features[0] | null>(null)
 
   // Disable body scroll when modal is open
   useEffect(() => {
     if (selectedFeature) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden'
     } else {
-      document.body.style.overflow = "";
+      document.body.style.overflow = ''
     }
     return () => {
-      document.body.style.overflow = "";
-    };
-  }, [selectedFeature]);
+      document.body.style.overflow = ''
+    }
+  }, [selectedFeature])
 
   // Animation variants for modal
   const modalVariants = {
@@ -44,8 +36,8 @@ export default function FeatureSlider() {
       y: 50,
       transition: {
         duration: 0.3,
-        ease: easeOut,
-      },
+        ease: easeOut
+      }
     },
     visible: {
       opacity: 1,
@@ -55,8 +47,8 @@ export default function FeatureSlider() {
         duration: 0.3,
         ease: easeOut,
         when: "beforeChildren",
-        staggerChildren: 0.1,
-      },
+        staggerChildren: 0.1
+      }
     },
     exit: {
       opacity: 0,
@@ -64,10 +56,10 @@ export default function FeatureSlider() {
       y: 50,
       transition: {
         duration: 0.25,
-        ease: easeIn,
-      },
-    },
-  };
+        ease: easeIn
+      }
+    }
+  }
 
   // Animation variants for modal card content
   const cardContentVariants = {
@@ -77,10 +69,10 @@ export default function FeatureSlider() {
       y: 0,
       transition: {
         duration: 0.3,
-        ease: easeOut,
-      },
-    },
-  };
+        ease: easeOut
+      }
+    }
+  }
 
   // Animation variants for swiper slides
   const slideVariants = {
@@ -91,10 +83,10 @@ export default function FeatureSlider() {
       transition: {
         delay: i * 0.1,
         duration: 0.4,
-        ease: easeOut,
-      },
-    }),
-  };
+        ease: easeOut
+      }
+    })
+  }
 
   // Animation variants for navigation buttons
   const buttonVariants = {
@@ -104,18 +96,18 @@ export default function FeatureSlider() {
       opacity: 1,
       transition: {
         duration: 0.2,
-        ease: easeOut,
-      },
-    },
-  };
+        ease: easeOut
+      }
+    }
+  }
 
   return (
     <motion.div
       ref={ref}
-      className="relative w-full pt-20"
+      className="relative w-full bg-body pt-12 md:pt-24"
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-      transition={{ duration: 0.8, ease: easeOut }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
     >
       <div className="!overflow-visible">
         <Swiper
@@ -127,23 +119,68 @@ export default function FeatureSlider() {
             swiperRef.current = swiper;
           }}
           breakpoints={{
-            320: { slidesPerView: 1.1, spaceBetween: 10 },
-            375: { slidesPerView: 1.15, spaceBetween: 12 },
-            425: { slidesPerView: 1.2, spaceBetween: 14 },
-            480: { slidesPerView: 1.3, spaceBetween: 16 },
-            640: { slidesPerView: 1.5, spaceBetween: 18 },
-            768: { slidesPerView: 1.69, spaceBetween: 15 },
-            1024: { slidesPerView: 2.1, spaceBetween: 22 },
-            1280: { slidesPerView: 2.6, spaceBetween: 24 },
-            1440: { slidesPerView: 2.3, spaceBetween: 0 },
-            1600: { slidesPerView: 3.2, spaceBetween: 28 },
-            1920: { slidesPerView: 3.2, spaceBetween: 30 },
+            // موبایل کوچک (320px+)
+            320: {
+              slidesPerView: 1.1,
+              spaceBetween: 10,
+            },
+            // موبایل متوسط (375px+) 
+            375: {
+              slidesPerView: 1.15,
+              spaceBetween: 12,
+            },
+            // موبایل بزرگ (425px+)
+            425: {
+              slidesPerView: 1.2,
+              spaceBetween: 14,
+            },
+            // موبایل افقی / تبلت کوچک (480px+)
+            480: {
+              slidesPerView: 1.3,
+              spaceBetween: 20,
+            },
+            // تبلت عمودی (640px+)
+            640: {
+              slidesPerView: 1.7,
+              spaceBetween: 18,
+            },
+            // تبلت افقی (768px+)
+            768: {
+              slidesPerView: 1.69,
+              spaceBetween: 20,
+            },
+            // دسکتاپ کوچک (1024px+)
+            1024: {
+              slidesPerView: 2.3,
+              spaceBetween: 20,
+            },
+            // دسکتاپ متوسط (1280px+)
+            1280: {
+              slidesPerView: 2.5,
+              spaceBetween: 20,
+            },
+            // دسکتاپ بزرگ (1440px+)
+            1440: {
+              slidesPerView: 2.7,
+              spaceBetween: 20,
+            },
+            // دسکتاپ خیلی بزرگ (1600px+)
+            1600: {
+              slidesPerView: 3.2,
+              spaceBetween: 20,
+            },
+            // نمایشگرهای فوق عریض (1920px+)
+            1920: {
+              slidesPerView: 3.2,
+              spaceBetween: 20,
+            },
           }}
           className="!overflow-visible"
           watchSlidesProgress={true}
           watchOverflow={true}
           grabCursor={true}
           allowTouchMove={true}
+          // تنظیمات اضافی برای تجربه بهتر
           resistance={true}
           resistanceRatio={0.85}
           threshold={10}
@@ -159,7 +196,6 @@ export default function FeatureSlider() {
                 animate={isInView ? "visible" : "hidden"}
               >
                 <FeatureCard
-                  index={index}
                   {...feature}
                   onExpand={() => setSelectedFeature(feature)}
                 />
@@ -169,22 +205,18 @@ export default function FeatureSlider() {
         </Swiper>
       </div>
 
-      {/* Navigation buttons */}
-      <div className="flex justify-center items-center mt-12 sm:mt-14 md:mt-16 space-x-3 mb-5">
-        <motion.button
-          onClick={() => swiperRef.current?.slidePrev()}
-          className={`flex-shrink-0 relative bg-white/10 hover:bg-[#83FFDA20] hover:border-[#83FFDA40] p-1.5 xs:p-2 sm:p-2 rounded-full border border-white/5 hover:scale-105`}
-          variants={buttonVariants}
-          initial="rest"
-          whileHover="hover"
-          aria-label="Previous feature"
-        >
-          <ChevronLeft
-            size={14}
-            color="#858FA660"
-            className="xs:w-4 xs:h-4 sm:w-4 sm:h-4"
-          />
-        </motion.button>
+      {/* Navigation buttons - responsive sizing */}
+     <div className="flex justify-center items-center mt-12 sm:mt-14 md:mt-16 space-x-3 mb-5">
+  <button
+    onClick={() => swiperRef.current?.slidePrev()}
+    className="bg-white/10 hover:bg-[#83FFDA20] hover:border-[#83FFDA40] p-1.5 xs:p-2 sm:p-2 rounded-full border border-white/5 transition-all duration-300 hover:scale-110 group"
+    aria-label="Previous feature"
+  >
+    <ChevronLeft
+      size={14}
+      className="xs:w-4 xs:h-4 sm:w-4 sm:h-4 text-[#A0A9B0] group-hover:text-[#83FFDA] transition-all duration-300"
+    />
+  </button>
 
         <motion.button
           onClick={() => swiperRef.current?.slideNext()}
@@ -223,7 +255,6 @@ export default function FeatureSlider() {
             >
               <motion.div variants={cardContentVariants}>
                 <FeatureCard
-                  index={1}
                   {...selectedFeature}
                   isExpanded={true}
                   onClose={() => setSelectedFeature(null)}
@@ -237,3 +268,4 @@ export default function FeatureSlider() {
     </motion.div>
   );
 }
+

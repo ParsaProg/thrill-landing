@@ -1,94 +1,164 @@
 "use client"
-import Image from "next/image"
+import { motion, useScroll, useTransform } from "framer-motion"
+import { useRef } from "react"
 import HeroCTAButton from "./HeroCTAButton"
-import { motion } from "framer-motion"
 
 export default function HeroSection() {
-  return (
-    <section id="hero" className="pt-[15rem] relative overflow-hidden min-h-screen bg-[#1B1D29]">
+  const sectionRef = useRef<HTMLDivElement>(null)
+  
+  // Get scroll progress for this section
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"]
+  })
 
-      {/* Right image - Simple entrance */}
+  // Transform values based on scroll progress
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
+  const contentScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8])
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+  const titleY = useTransform(scrollYProgress, [0, 1], ["0px", "-150px"])
+  const subtitleY = useTransform(scrollYProgress, [0, 1], ["0px", "-100px"])
+  const descriptionY = useTransform(scrollYProgress, [0, 1], ["0px", "-200px"])
+  const buttonY = useTransform(scrollYProgress, [0, 1], ["0px", "-250px"])
+  
+  // Video animations
+  const leftVideoX = useTransform(scrollYProgress, [0, 1], ["0px", "-300px"])
+  const rightVideoX = useTransform(scrollYProgress, [0, 1], ["0px", "300px"])
+  const videoScale = useTransform(scrollYProgress, [0, 0.7], [1, 1.2])
+  const videoOpacity = useTransform(scrollYProgress, [0, 0.9], [1, 0])
+
+  return (
+    <section 
+      ref={sectionRef}
+      id="hero" 
+      className="sm:pt-[15rem] pt-[10rem] relative overflow-hidden"
+    >
+      {/* Right video - با scroll effects */}
       <motion.div
-        className="absolute right-0 top-0 z-[5] pointer-events-none"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        className="absolute top-0 z-[5] pointer-events-none
+                   right-[-12rem] h-full w-[100%]
+                   sm:right-[-250px] sm:w-[100%]
+                   md:right-[-270px] md:w-[95%]
+                   lg:right-[-260px] lg:w-[80%]
+                   xl:right-[-340px] xl:w-[70%]
+                   2xl:right-[-400px] 2xl:w-[65%]"
+        style={{
+          maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%)',
+          x: rightVideoX,
+          scale: videoScale,
+          opacity: videoOpacity
+        }}
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
       >
-        <Image
-          src="/right.png"
-          alt="right"
-          width={500}
-          height={500}
-          priority
-          className="object-contain w-[56rem] sm:w-[40rem] md:w-[48rem] lg:w-[56rem]"
+        <video
+          src="/animations/header_left_side.webm"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover scale-x-[-1] object-center pointer-events-none"
         />
       </motion.div>
 
-      {/* Left image - Simple entrance with slight delay */}
+      {/* Left video - با scroll effects */}
       <motion.div
-        className="absolute left-0 top-0 z-[5] pointer-events-none"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        className="absolute top-0 z-[2] pointer-events-none
+                   left-[-12rem] h-full w-[100%]
+                   sm:left-[-250px] sm:w-[100%]
+                   md:left-[-270px] md:w-[95%]
+                   lg:left-[-260px] lg:w-[80%]
+                   xl:left-[-340px] xl:w-[70%]
+                   2xl:left-[-400px] 2xl:w-[65%]"
+        style={{
+          maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%)',
+          x: leftVideoX,
+          scale: videoScale,
+          opacity: videoOpacity
+        }}
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1.5, delay: 0.2, ease: "easeOut" }}
       >
-        <Image
-          src="/right.png"
-          alt="left"
-          width={500}
-          height={900}
-          priority
-          className="object-contain w-[56rem] sm:w-[40rem] md:w-[48rem] lg:w-[56rem] scale-x-[-1]"
+        <video
+          src="/animations/header_left_side.webm"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover object-center pointer-events-none"
         />
       </motion.div>
 
-      {/* Content */}
-      <div className="flex flex-col items-center justify-center gap-3 relative z-10 px-4 sm:px-6 md:px-8">
-
+      {/* Content با scroll animations */}
+      <motion.div 
+        className="flex flex-col items-center justify-center gap-3 relative z-10 px-4 sm:px-6 md:px-8"
+        style={{ 
+          scale: contentScale,
+          opacity: contentOpacity
+        }}
+      >
         {/* Block 1: Subtitle */}
         <motion.h3
           className="uppercase text-accent-green_light font-semibold text-sm sm:text-base"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          style={{ y: subtitleY }}
+          initial={{ opacity: 0, y: 0 }}
+          animate={{ opacity: 1, y: 20 }}
           transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
         >
           grow with thrill
         </motion.h3>
-        <motion.div className="h-[12rem] w-[35rem] blur-3xl top-12 bg-sky-300 bg-opacity-10 absolute" initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }} />
+        
+        {/* Background blur effect */}
+        <motion.div 
+          className="h-[12rem] hidden sm:block w-[35rem] blur-3xl top-12 bg-sky-300 bg-opacity-10 absolute" 
+          style={{ y: backgroundY }}
+          initial={{ opacity: 0, y: 0 }}
+          animate={{ opacity: 1, y: 20 }}
+          transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }} 
+        />
+        
         {/* Block 2: Main Title */}
         <motion.h1
-          className="text-white text-[32px] sm:text-[48px] md:text-[56px] lg:text-[64px] font-bold max-w-5xl text-center uppercase leading-tight px-2"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          className="text-white text-[28px] sm:text-[48px] md:text-[56px] lg:text-[64px] font-bold max-w-5xl text-center uppercase leading-tight px-2"
+          style={{ y: titleY }}
+          initial={{ opacity: 0, y: 0 }}
+          animate={{ opacity: 1, y: 20 }}
           transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
         >
-          streaming partnership you've Been waiting For
+          The Affiliate partnership you've Been waiting For
         </motion.h1>
 
-        {/* Block 3: Description + Button */}
+        {/* Block 3: Description */}
         <motion.div
-          className="flex flex-col items-center gap-6 mt-2"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          className="text-center space-y-1 px-4 mt-2"
+          style={{ y: descriptionY }}
+          initial={{ opacity: 0, y: 0 }}
+          animate={{ opacity: 1, y: 20 }}
           transition={{ duration: 0.6, delay: 0.7, ease: "easeOut" }}
         >
-          {/* Description */}
-          <div className="text-center space-y-1 px-4">
-            <p className="text-neutral-lightGray text-lg sm:text-xl">
-              It's time to make your streams Thrilling.
-            </p>
-            <p className="text-neutral-lightGray text-lg sm:text-xl">
-              Join the best casino affiliate program built around creators.
-            </p>
-          </div>
-
-          {/* CTA Button */}
-          <div className="mt-8 pb-16">
-            <HeroCTAButton />
-          </div>
+          <p className="text-neutral-lightGray text-md sm:text-xl">
+          It’s time to make your reach thrilling.
+          </p>
+          <p className="text-neutral-lightGray text-md sm:text-xl">
+            Join the best casino affiliate programbuilt for creators, streamers, publishers, and platforms of all kinds.
+          </p>
         </motion.div>
-      </div>
+
+        {/* Block 4: CTA Button */}
+        <motion.div
+          className="mt-8 pb-16"
+          style={{ y: buttonY }}
+          initial={{ opacity: 0, y: 0 }}
+          animate={{ opacity: 1, y: 20 }}
+          transition={{ duration: 0.6, delay: 0.9, ease: "easeOut" }}
+        >
+          <HeroCTAButton />
+        </motion.div>
+      </motion.div>
     </section>
   )
 }

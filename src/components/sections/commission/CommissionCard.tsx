@@ -10,90 +10,132 @@ export default function CommissionCard() {
 
   const gridVariants = {
     hidden: {},
-    show: { transition: { staggerChildren: 0.08 } },
+    show: {},
   }
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 18 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: easeOut } },
-  }
-
-  const lineVariants = {
-    hidden: { opacity: 0, y: 12 },
-    show: (i = 0) => ({
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5, ease: easeOut, delay: i * 0.04 },
-    }),
-  }
-
-  const highlightVariants = {
-    hidden: { opacity: 0, scale: 0.98, filter: 'blur(2px)' },
+  const getCardVariants = (idx: number) => ({
+    hidden: { opacity: 0, y: 30 },
     show: {
       opacity: 1,
-      scale: 1,
-      filter: 'blur(0px)',
-      transition: { duration: 0.6, ease: easeOut, delay: 0.25 },
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: easeOut,
+        delay: 0.8 + (idx * 0.1)
+      }
     },
-  }
-
-  const dotVariants = {
-    hidden: { opacity: 0, scale: 0.6 },
-    show: { opacity: 1, scale: 1, transition: { duration: 0.45, delay: 0.9 } },
-  }
+  })
 
   return (
     <section
       id="commission-plan"
       ref={ref}
-      className="relative pt-16 sm:pt-24 md:pt-32 lg:pt-36 overflow-hidden"
+      className="relative pt-12 md:pt-24 overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative">
-          {/* Decorative lines & blobs */}
-          <div className="hidden lg:block absolute inset-0 pointer-events-none">
-            {/* Vertical lines */}
-            <div className="absolute top-0 bottom-0 w-px left-1/3 bg-[rgba(255,255,255,0.15)]" />
-            <div className="absolute top-0 bottom-0 w-px left-2/3 bg-[rgba(255,255,255,0.15)]" />
-            {/* Horizontal line */}
-            <div className="absolute left-0 right-0 h-px top-1/2 bg-[rgba(255,255,255,0.15)]" />
 
-            {/* Dots & Blobs */}
+          {/* Desktop - سیستم اصلی */}
+          <div className="hidden lg:block absolute inset-0 pointer-events-none">
             <motion.div
-              className="absolute w-2 h-2 rounded-full -translate-y-1/2 shadow-step-glow bg-neutral-lightGray left-[33.1%] top-[49.5%]"
-              initial="hidden"
-              animate={isInView ? 'show' : 'hidden'}
-              variants={dotVariants}
+              className="absolute top-0 bottom-0 w-px left-1/3 bg-[rgba(255,255,255,0.15)]"
+              initial={{ opacity: 0, scaleY: 0 }}
+              animate={isInView ? { opacity: 1, scaleY: 1 } : { opacity: 0, scaleY: 0 }}
+              transition={{ duration: 0.8, delay: 1.4, ease: "easeOut" }}
             />
             <motion.div
-              className="absolute w-2 h-2 z-[999] rounded-full -translate-y-1/2 shadow-step-glow bg-neutral-lightGray left-[66.39%] top-[49.5%]"
-              initial="hidden"
-              animate={isInView ? 'show' : 'hidden'}
-              variants={dotVariants}
+              className="absolute top-0 bottom-0 w-px left-2/3 bg-[rgba(255,255,255,0.15)]"
+              initial={{ opacity: 0, scaleY: 0 }}
+              animate={isInView ? { opacity: 1, scaleY: 1 } : { opacity: 0, scaleY: 0 }}
+              transition={{ duration: 0.8, delay: 1.4, ease: "easeOut" }}
             />
             <motion.div
-              className="absolute w-[20rem] h-[10rem] blur-3xl rounded-full -translate-y-1/2 bg-gray-600/5 left-[22.1%] top-[40.5%]"
-              initial="hidden"
-              animate={isInView ? 'show' : 'hidden'}
-              variants={dotVariants}
+              className="absolute left-0 right-0 h-px top-1/2 bg-[rgba(255,255,255,0.15)]"
+              initial={{ opacity: 0, scaleX: 0 }}
+              animate={isInView ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0 }}
+              transition={{ duration: 0.8, delay: 1.4, ease: "easeOut" }}
+            />
+
+            <motion.div
+              className="absolute w-2 h-2 rounded-full -translate-y-1/2 shadow-step-glow bg-accent-green_light left-[33.01%] top-[50%]"
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.6, delay: 2.0, ease: "easeOut" }}
             />
             <motion.div
-              className="absolute w-[20rem] h-[10rem] blur-3xl z-[999] rounded-full -translate-y-1/2 bg-gray-600/5 left-[55.39%] top-[40.5%]"
-              initial="hidden"
-              animate={isInView ? 'show' : 'hidden'}
-              variants={dotVariants}
+              className="absolute w-2 h-2 z-[999] rounded-full -translate-y-1/2 shadow-step-glow bg-accent-green_light left-[66.35%] top-[50%]"
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.6, delay: 2.0, ease: "easeOut" }}
+            />
+            <motion.div
+              className="absolute w-[20rem] h-[10rem] blur-3xl rounded-full -translate-y-1/2 bg-gray-600/5 left-[22.1%] top-[50%]"
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.6, delay: 2.0, ease: "easeOut" }}
+            />
+            <motion.div
+              className="absolute w-[20rem] h-[10rem] blur-3xl z-[999] rounded-full -translate-y-1/2 bg-gray-600/5 left-[50.39%] top-[50%]"
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.6, delay: 2.0, ease: "easeOut" }}
             />
           </div>
 
-          {/* Responsive Grid */}
+          {/* Tablet 2-column - خط وسط */}
+          <div className="hidden md:block lg:hidden absolute inset-0 pointer-events-none">
+            {/* خط عمودی مرکزی */}
+            <motion.div
+              className="absolute top-0 bottom-0 w-px left-1/2 -translate-x-1/2 bg-[rgba(255,255,255,0.15)]"
+              initial={{ opacity: 0, scaleY: 0 }}
+              animate={isInView ? { opacity: 1, scaleY: 1 } : { opacity: 0, scaleY: 0 }}
+              transition={{ duration: 0.8, delay: 1.4, ease: "easeOut" }}
+            />
+
+            {/* خطوط افقی */}
+            <motion.div
+              className="absolute left-0 right-0 h-px top-1/3 bg-[rgba(255,255,255,0.15)]"
+              initial={{ opacity: 0, scaleX: 0 }}
+              animate={isInView ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0 }}
+              transition={{ duration: 0.8, delay: 1.6, ease: "easeOut" }}
+            />
+            <motion.div
+              className="absolute left-0 right-0 h-px top-2/3 bg-[rgba(255,255,255,0.15)]"
+              initial={{ opacity: 0, scaleX: 0 }}
+              animate={isInView ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0 }}
+              transition={{ duration: 0.8, delay: 1.8, ease: "easeOut" }}
+            />
+              <motion.div
+              className="absolute w-2 h-2 rounded-full shadow-step-glow bg-accent-green_light"
+              style={{ 
+                left: 'calc(50% - 4px)', 
+                top: 'calc(33.333% - 4px)' 
+              }}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+              transition={{ duration: 0.6, delay: 2.0, ease: "easeOut" }}
+            />
+            <motion.div
+              className="absolute w-2 h-2 rounded-full shadow-step-glow bg-accent-green_light"
+              style={{ 
+                left: 'calc(50% - 4px)', 
+                top: 'calc(66.666% - 4px)' 
+              }}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+              transition={{ duration: 0.6, delay: 2.2, ease: "easeOut" }}
+            />
+            
+          </div>
+
           <motion.div
             className="
               grid 
               grid-cols-1 
-              sm:grid-cols-2 
-              md:grid-cols-1 
+              sm:grid-cols-1
+              md:grid-cols-2 
               lg:grid-cols-3 
-              gap-6 sm:gap-8 md:gap-10 lg:gap-12
+              gap-6 sm:gap-6 md:gap-10 lg:gap-12
             "
             initial="hidden"
             animate={isInView ? 'show' : 'hidden'}
@@ -105,50 +147,42 @@ export default function CommissionCard() {
                 className="
                   relative z-10 
                   flex flex-col justify-center items-start text-left
-                  px-4 sm:px-6 py-6 sm:py-8 md:py-6
+                  px-6 py-8 sm:px-8 sm:py-10 md:px-6 md:py-8
                   md:aspect-auto lg:aspect-square
+                  
+                  border border-white/10 rounded-xl
+                  bg-gradient-to-br from-white/[0.02] to-transparent
+                  backdrop-blur-sm
+                  
+                  md:border-none md:rounded-none md:bg-none md:backdrop-blur-none
                 "
-                variants={cardVariants}
+                variants={getCardVariants(idx)}
                 aria-labelledby={`commission-item-${idx}`}
               >
                 {/* Eyebrow */}
-                <motion.div
-                  custom={0}
-                  variants={lineVariants}
-                  className="font-semibold uppercase tracking-widest text-neutral-white text-xs sm:text-sm mb-2 sm:mb-3"
-                >
+                <div className="font-semibold uppercase tracking-widest text-neutral-white text-xs sm:text-sm mb-2 sm:mb-3">
                   {it.eyebrow}
-                </motion.div>
+                </div>
 
                 {/* Highlight */}
-                <motion.h3
+                <h3
                   id={`commission-item-${idx}`}
                   className="text-2xl sm:text-3xl md:text-2xl lg:text-[32px] text-accent-green_light font-semibold uppercase leading-tight mb-3 sm:mb-5"
                   style={{ textShadow: '0 0 12px #5CFFC166' }}
-                  initial="hidden"
-                  animate={isInView ? 'show' : 'hidden'}
-                  variants={highlightVariants}
                 >
                   {it.highlight}
-                </motion.h3>
+                </h3>
 
                 {/* Title */}
-                <motion.h4
-                  className="font-semibold uppercase text-neutral-white mb-1 sm:mb-2 text-sm sm:text-base"
-                  custom={1}
-                  variants={lineVariants}
-                >
+                <h4 className="font-semibold uppercase text-neutral-white mb-1 sm:mb-2 text-sm sm:text-base">
                   {it.title}
-                </motion.h4>
+                </h4>
 
                 {/* Description */}
-                <motion.p
-                  className="text-white/60 text-sm sm:text-sm max-w-[44ch] sm:max-w-[32ch] md:max-w-full lg:max-w-[250px]"
-                  custom={2}
-                  variants={lineVariants}
-                >
+                <p className="text-white/60 text-sm sm:text-sm max-w-[44ch] sm:max-w-none md:max-w-full lg:max-w-[250px]">
                   {it.desc}
-                </motion.p>
+                </p>
+                
               </motion.article>
             ))}
           </motion.div>
