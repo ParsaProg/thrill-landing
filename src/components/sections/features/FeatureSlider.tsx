@@ -1,32 +1,40 @@
-"use client"
-import { useRef, useState, useEffect } from "react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import { motion, useInView, AnimatePresence, easeOut, easeIn } from "framer-motion"
-import { Navigation, Autoplay } from "swiper/modules"
-import type { Swiper as SwiperType } from "swiper"
-import "swiper/css"
-import "swiper/css/navigation"
-import { features } from "@/constants/data/features"
-import { Swiper, SwiperSlide } from "swiper/react"
-import FeatureCard from "./FeatureCard"
+"use client";
+import { useRef, useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  motion,
+  useInView,
+  AnimatePresence,
+  easeOut,
+  easeIn,
+} from "framer-motion";
+import { Navigation, Autoplay } from "swiper/modules";
+import type { Swiper as SwiperType } from "swiper";
+import "swiper/css";
+import "swiper/css/navigation";
+import { features } from "@/constants/data/features";
+import { Swiper, SwiperSlide } from "swiper/react";
+import FeatureCard from "./FeatureCard";
 
 export default function FeatureSlider() {
-  const swiperRef = useRef<SwiperType>(null)
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-150px" })
-  const [selectedFeature, setSelectedFeature] = useState<typeof features[0] | null>(null)
+  const swiperRef = useRef<SwiperType>(null);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-150px" });
+  const [selectedFeature, setSelectedFeature] = useState<
+    (typeof features)[0] | null
+  >(null);
 
   // Disable body scroll when modal is open
   useEffect(() => {
     if (selectedFeature) {
-      document.body.style.overflow = 'hidden'
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = ''
+      document.body.style.overflow = "";
     }
     return () => {
-      document.body.style.overflow = ''
-    }
-  }, [selectedFeature])
+      document.body.style.overflow = "";
+    };
+  }, [selectedFeature]);
 
   // Animation variants for modal
   const modalVariants = {
@@ -36,8 +44,8 @@ export default function FeatureSlider() {
       y: 50,
       transition: {
         duration: 0.3,
-        ease: easeOut
-      }
+        ease: easeOut,
+      },
     },
     visible: {
       opacity: 1,
@@ -47,8 +55,8 @@ export default function FeatureSlider() {
         duration: 0.3,
         ease: easeOut,
         when: "beforeChildren",
-        staggerChildren: 0.1
-      }
+        staggerChildren: 0.1,
+      },
     },
     exit: {
       opacity: 0,
@@ -56,10 +64,10 @@ export default function FeatureSlider() {
       y: 50,
       transition: {
         duration: 0.25,
-        ease: easeIn
-      }
-    }
-  }
+        ease: easeIn,
+      },
+    },
+  };
 
   // Animation variants for modal card content
   const cardContentVariants = {
@@ -69,10 +77,10 @@ export default function FeatureSlider() {
       y: 0,
       transition: {
         duration: 0.3,
-        ease: easeOut
-      }
-    }
-  }
+        ease: easeOut,
+      },
+    },
+  };
 
   // Animation variants for swiper slides
   const slideVariants = {
@@ -83,10 +91,10 @@ export default function FeatureSlider() {
       transition: {
         delay: i * 0.1,
         duration: 0.4,
-        ease: easeOut
-      }
-    })
-  }
+        ease: easeOut,
+      },
+    }),
+  };
 
   // Animation variants for navigation buttons
   const buttonVariants = {
@@ -96,10 +104,10 @@ export default function FeatureSlider() {
       opacity: 1,
       transition: {
         duration: 0.2,
-        ease: easeOut
-      }
-    }
-  }
+        ease: easeOut,
+      },
+    },
+  };
 
   return (
     <motion.div
@@ -116,7 +124,7 @@ export default function FeatureSlider() {
           slidesPerView={1.05}
           centeredSlides={false}
           onSwiper={(swiper) => {
-            swiperRef.current = swiper
+            swiperRef.current = swiper;
           }}
           breakpoints={{
             320: { slidesPerView: 1.1, spaceBetween: 10 },
@@ -151,6 +159,7 @@ export default function FeatureSlider() {
                 animate={isInView ? "visible" : "hidden"}
               >
                 <FeatureCard
+                  index={index}
                   {...feature}
                   onExpand={() => setSelectedFeature(feature)}
                 />
@@ -214,6 +223,7 @@ export default function FeatureSlider() {
             >
               <motion.div variants={cardContentVariants}>
                 <FeatureCard
+                  index={1}
                   {...selectedFeature}
                   isExpanded={true}
                   onClose={() => setSelectedFeature(null)}
@@ -225,6 +235,5 @@ export default function FeatureSlider() {
         )}
       </AnimatePresence>
     </motion.div>
-  )
+  );
 }
-
